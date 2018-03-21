@@ -1,4 +1,5 @@
 /* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -44,6 +45,8 @@ static struct mdss_dsi_data *mdss_dsi_res;
 #define DSI_ENABLE_PC_LATENCY PM_QOS_DEFAULT_VALUE
 
 static struct pm_qos_request mdss_dsi_pm_qos_request;
+bool is_Lcm_Present = false;
+bool is_tianma_panel = false;
 
 static void mdss_dsi_pm_qos_add_request(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
@@ -292,6 +295,8 @@ static int mdss_dsi_panel_power_off(struct mdss_panel_data *pdata)
 		ret = 0;
 	}
 
+	usleep(500);
+
 	if (mdss_dsi_pinctrl_set_state(ctrl_pdata, false))
 		pr_debug("reset disable: pinctrl not enabled\n");
 
@@ -306,6 +311,8 @@ end:
 	return ret;
 }
 
+int tp_gesture_onoff = 0;
+EXPORT_SYMBOL(tp_gesture_onoff);
 static int mdss_dsi_panel_power_on(struct mdss_panel_data *pdata)
 {
 	int ret = 0;
@@ -2888,6 +2895,10 @@ static struct device_node *mdss_dsi_find_panel_of_node(
 				panel_name[i] = *(str1 + i);
 			panel_name[i] = 0;
 		}
+
+		if (!strcmp(panel_name, "qcom,mdss_dsi_ili9881c_tianma_c3b_720p_video"))
+			is_tianma_panel = true;
+
 		pr_info("%s: cmdline:%s panel_name:%s\n",
 			__func__, panel_cfg, panel_name);
 		if (!strcmp(panel_name, NONE_PANEL))
@@ -2926,12 +2937,13 @@ static struct device_node *mdss_dsi_find_panel_of_node(
 					cfg_np_name, MDSS_MAX_PANEL_LEN);
 			}
 		}
-
+		is_Lcm_Present = true;
 		return dsi_pan_node;
 	}
 end:
 	if (strcmp(panel_name, NONE_PANEL))
 		dsi_pan_node = mdss_dsi_pref_prim_panel(pdev);
+	is_Lcm_Present = false;
 exit:
 	return dsi_pan_node;
 }
