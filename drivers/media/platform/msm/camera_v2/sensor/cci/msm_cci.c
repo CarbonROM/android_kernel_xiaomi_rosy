@@ -1,5 +1,5 @@
 /* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2019 XiaoMi, Inc.
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1426,7 +1426,7 @@ static int32_t msm_cci_init(struct v4l2_subdev *sd,
 	for (i = 0; i < NUM_QUEUES; i++)
 		reinit_completion(&cci_dev->cci_master_info[MASTER_0].
 			report_q[i]);
-    reinit_completion(&cci_dev->cci_master_info[MASTER_1].reset_complete);
+	reinit_completion(&cci_dev->cci_master_info[MASTER_1].reset_complete);
 	for (i = 0; i < NUM_QUEUES; i++)
 		reinit_completion(&cci_dev->cci_master_info[MASTER_1].
 			report_q[i]);
