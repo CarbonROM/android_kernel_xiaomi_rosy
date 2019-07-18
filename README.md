@@ -16,7 +16,7 @@ If you missed the `--recursive` command while cloning this repo, then use `git s
 ##### Shallow Clone
 If you're just cloning it just for building, then use the following command to save bandwidth & space.
 
-`git clone --recursive https://github.com/LinuxPanda/android_kernel_rosy.git -b p-318 --depth=1 --single-branch`
+`git clone --recursive https://github.com/LinuxPanda/android_kernel_rosy.git -b cr-7.0 --depth=1 --single-branch`
 
 ##### Full Clone
 If you need the entire commit history, then the usual "recursive clone" command.
